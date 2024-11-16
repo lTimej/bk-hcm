@@ -1,7 +1,7 @@
 # defines all the network related options.
 network:
   # bindIP is ip where server working on.
-  bindIP:
+  bindIP: 198.19.249.53
   # httpPort is port where server listen to http port.
   port: 9603
   # defines tls related options.
@@ -23,7 +23,7 @@ service:
   etcd:
     # endpoints is a list of URLs.
     endpoints:
-      - 127.0.0.1:2379
+      - 198.19.249.53:20000
     # dialTimeoutMS is the timeout milliseconds for failing to establish a connection.
     dialTimeoutMS:
     # username is a user's name for authentication.
@@ -47,11 +47,11 @@ service:
 iam:
   # endpoints is a seed list of host:port addresses of iam nodes.
   endpoints:
-    - 127.0.0.1:6666
+    - http://bkiam.bkee5-ipv6.bkcanway.com/
   # appCode is hcm app code.
-  appCode: bk-hcm
+  appCode: bk_iam
   # appSecret is hcm app secret.
-  appSecret: xxxx
+  appSecret: 4145ce4c-9e3e-45c9-a9d0-0e2411f8c6be
   # defines tls related options.
   tls:
     # server should be accessed without verifying the TLS certificate.
@@ -69,11 +69,11 @@ iam:
 esb:
   # endpoints is a seed list of host:port addresses of esb nodes.
   endpoints:
-    - http://paas.bk.com
+    - http://bkapi.bkee5-ipv6.bkcanway.com
   # appCode is the BlueKing app code of hcm to request esb.
-  appCode:
+  appCode: bk_itsm
   # appSecret is the BlueKing app secret of hcm to request esb.
-  appSecret:
+  appSecret: EjaxrkWCZWiuO7OvtJvnfrkCTftlwL5dPy36
   # user is the BlueKing user of hcm to request esb.
   user: admin
   # defines tls related options.
@@ -102,8 +102,8 @@ log:
   # whether the restart service log is appended to the latest log file, or whether a new log file is created.
   logAppend: false
   # log the log to std err only, it can not be used with AlsoToStdErr at the same time.
-  toStdErr: false
+  toStdErr: true
   # log the log to file and also to std err. it can not be used with ToStdErr at the same time.
-  alsoToStdErr: false
+  alsoToStdErr: true
   # log level.
   verbosity: 0

@@ -1,7 +1,7 @@
 # defines all the network related options.
 network:
   # bindIP is ip where server working on.
-  bindIP:
+  bindIP: 198.19.249.53
   # port is port where server listen to http port.
   port: 9600
   # defines tls related options.
@@ -23,7 +23,7 @@ service:
   etcd:
     # endpoints is a list of URLs.
     endpoints:
-      - 127.0.0.1:2379
+      - 198.19.249.53:20000
     # dialTimeoutMS is the timeout milliseconds for failing to establish a connection.
     dialTimeoutMS:
     # username is a user's name for authentication.
@@ -52,7 +52,7 @@ database:
       - 127.0.0.1:3306
     database: hcm
     user: root
-    password: admin
+    password: 12345678
     # DialTimeoutSec is timeout in seconds to wait for a response from the db server
     # all the timeout default value reference:
     # https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html.
@@ -108,19 +108,19 @@ crypto:
   # Aes Gcm algorithm
   aesGcm:
     # aes secret key, length should be 16 or 32 bytes
-    key:
+    key: b5edc2eae4683811c4556155157d37ab
     # gcm nonce, length should be 12 bytes
-    nonce:
+    nonce: 279a6875a1c5
 
 # defines esb related settings.
 esb:
   # endpoints is a seed list of host:port addresses of esb nodes.
   endpoints:
-    - http://paas.bk.com
+    - http://bkapi.bkee5-ipv6.bkcanway.com
   # appCode is the BlueKing app code of hcm to request esb.
-  appCode:
+  appCode: bk_itsm
   # appSecret is the BlueKing app secret of hcm to request esb.
-  appSecret:
+  appSecret: EjaxrkWCZWiuO7OvtJvnfrkCTftlwL5dPy36
   # user is the BlueKing user of hcm to request esb.
   user: admin
   # defines tls related options.

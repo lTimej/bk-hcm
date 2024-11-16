@@ -1,7 +1,7 @@
 # defines all the network related options.
 network:
   # bindIP is ip where server working on.
-  bindIP:
+  bindIP: 198.19.249.53
   # port is port where server listen to http port.
   port: 9601
   # defines tls related options.
@@ -23,7 +23,7 @@ service:
   etcd:
     # endpoints is a list of URLs.
     endpoints:
-      - 127.0.0.1:2379
+      - 198.19.249.53:20000
     # dialTimeoutMS is the timeout milliseconds for failing to establish a connection.
     dialTimeoutMS:
     # username is a user's name for authentication.
