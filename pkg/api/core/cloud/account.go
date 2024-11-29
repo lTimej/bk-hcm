@@ -157,3 +157,11 @@ func (e *AzureAccountExtension) DecryptSecretKey(cipher cryptography.Crypto) err
 
 	return nil
 }
+
+type MobileCloudAccountExtension struct {
+	AppID      string `json:"app_id"`
+	AccessKey  string `json:"access_key"`
+	SecretKey  string `json:"secret_key"`
+	PublicKey  string `json:"public_key"`
+	PrivateKey string `json:"private_key,omitempty"`
+}

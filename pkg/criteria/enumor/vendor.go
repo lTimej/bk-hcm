@@ -49,6 +49,8 @@ const (
 	Zenlayer Vendor = "zenlayer"
 	// Kaopu is kaopu cloud.
 	Kaopu Vendor = "kaopu"
+	// MobileCloud is mobile cloud.
+	MobileCloud Vendor = "mobilecloud"
 )
 
 // VendorInfo 厂商信息

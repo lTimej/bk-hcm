@@ -1,0 +1,49 @@
+// @Title  Golang SDK Client
+// @Description  This code is auto generated
+// @Author  Ecloud SDK
+
+package model
+
+type QueryAkSkResponseOption QueryAkSkResponse[QueryAkSkResponseBody]
+
+type QueryAkSkResponse[T QueryAkSkResponseBody] struct {
+
+	// 状态，OK-成功 ERROR-失败，对应有错误码和错误描述
+	State *string `json:"state,omitempty"`
+	// 每次请求的唯一标识ID
+	RequestId *string `json:"requestId,omitempty"`
+	// 错误码
+	ErrorCode *string `json:"errorCode,omitempty"`
+	// 错误描述
+	ErrorMessage *string `json:"errorMessage,omitempty"`
+	// 响应体具体内容
+	Body *T `json:"body,omitempty"`
+}
+
+type Content struct {
+	// 公钥
+	AccessId *string `json:"accessId,omitempty"`
+	// 私钥
+	Secretkey *string `json:"secretKey,omitempty"`
+	// 用户id
+	UserId *string `json:"userId,omitempty"`
+	// 客户id
+	CustomerId *string `json:"customerId,omitempty"`
+	// 状态：0-正常  1-关闭
+	Status *int `json:"status,omitempty"`
+	// 页面可见性 0-不可见,1-可见
+	Visibility *int `json:"visibility,omitempty"`
+	// 时间戳
+	CreateTime interface{} `json:"createTime,omitempty"`
+	// 时间戳
+	ModifyTime interface{} `json:"modifyTime,omitempty"`
+}
+
+type QueryAkSkResponseBody struct {
+	// 鉴权内容
+	Content []Content `json:"content,omitempty"`
+	// 密钥数量
+	TotalElements *int `json:"totalElements,omitempty"`
+	// 密钥对数量
+	Total *int `json:"total,omitempty"`
+}

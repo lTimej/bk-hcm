@@ -70,3 +70,41 @@ type AzureCredential struct {
 func (a *AzureCredential) Validate() error {
 	return validator.Validate.Struct(a)
 }
+
+// BaseKey defines the hybrid cloud's base secret info.
+type MobileCloudCredential struct {
+	AppID      string `json:"app_id" validate:"required"`
+	AccessKey  string `json:"access_key" validate:"required"`
+	SecretKey  string `json:"secret_key" validate:"required"`
+	Privatekey string `json:"private_key" validate:"required"`
+	PublicKey  string `json:"public_key" validate:"required"`
+	Method     string `json:"method"`
+	PoolId     string `json:"poolId"`
+}
+
+// Validate BaseKey.
+func (mc MobileCloudCredential) Validate() error {
+	if len(mc.AppID) == 0 {
+		return errf.New(errf.InvalidParameter, "AppID is required")
+	}
+	if len(mc.AccessKey) == 0 {
+		return errf.New(errf.InvalidParameter, "AccessKey is required")
+	}
+
+	if len(mc.SecretKey) == 0 {
+		return errf.New(errf.InvalidParameter, "SecretKey is required")
+	}
+	if len(mc.Privatekey) == 0 {
+		return errf.New(errf.InvalidParameter, "Privatekey is required")
+	}
+
+	if len(mc.PublicKey) == 0 {
+		return errf.New(errf.InvalidParameter, "PublicKey is required")
+	}
+
+	// if len(mc.Method) == 0 {
+	// 	return errf.New(errf.InvalidParameter, "Method is required")
+	// }
+
+	return nil
+}

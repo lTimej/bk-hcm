@@ -28,6 +28,7 @@ import (
 	"hcm/pkg/client/data-service/global"
 	"hcm/pkg/client/data-service/huawei"
 	"hcm/pkg/client/data-service/kaopu"
+	"hcm/pkg/client/data-service/mobilecloud"
 	"hcm/pkg/client/data-service/tcloud"
 	"hcm/pkg/client/data-service/zenlayer"
 	"hcm/pkg/criteria/enumor"
@@ -37,14 +38,15 @@ import (
 
 // Client is data-service api client.
 type Client struct {
-	Global   *global.Client
-	TCloud   *tcloud.Client
-	Aws      *aws.Client
-	HuaWei   *huawei.Client
-	Gcp      *gcp.Client
-	Azure    *azure.Client
-	Zenlayer *zenlayer.Client
-	Kaopu    *kaopu.Client
+	Global      *global.Client
+	TCloud      *tcloud.Client
+	Aws         *aws.Client
+	HuaWei      *huawei.Client
+	Gcp         *gcp.Client
+	Azure       *azure.Client
+	Zenlayer    *zenlayer.Client
+	Kaopu       *kaopu.Client
+	MobileCloud *mobilecloud.Client
 }
 
 // NewClient create a new data-service api client.

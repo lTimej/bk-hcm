@@ -217,3 +217,14 @@ type TCloudListenerSyncReq struct {
 func (req *TCloudListenerSyncReq) Validate() error {
 	return validator.Validate.Struct(req)
 }
+
+// HuaWeiSyncReq huawei sync request
+type MobileCloudSyncReq struct {
+	AccountID string `json:"account_id" validate:"required"`
+	Region    string `json:"region" validate:"required"`
+}
+
+// Validate huawei sync request.
+func (req *MobileCloudSyncReq) Validate() error {
+	return validator.Validate.Struct(req)
+}

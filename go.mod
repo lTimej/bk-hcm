@@ -40,8 +40,12 @@ require (
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/ssl v1.0.908
 	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/vpc v1.0.908
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.48
+	github.com/tencentyun/qcloud-cos-sts-sdk v0.0.0-20240524051400-0402a4c50c2a
 	github.com/tidwall/gjson v1.14.4
 	github.com/xuri/excelize/v2 v2.8.1
+	gitlab.ecloud.com/ecloud/ecloudsdkcore v1.0.4
+	gitlab.ecloud.com/ecloud/ecloudsdkims v1.0.22
+	gitlab.ecloud.com/ecloud/ecloudsdkvpc v1.0.18
 	go.etcd.io/etcd/api/v3 v3.5.13
 	go.etcd.io/etcd/client/v3 v3.5.13
 	go.uber.org/atomic v1.10.0
@@ -97,7 +101,6 @@ require (
 	github.com/mozillazg/go-httpheader v0.2.1 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.3 // indirect
-	github.com/tencentyun/qcloud-cos-sts-sdk v0.0.0-20240524051400-0402a4c50c2a // indirect
 	github.com/xuri/efp v0.0.0-20231025114914-d1ff6096ae53 // indirect
 	github.com/xuri/nfp v0.0.0-20230919160717-d98342af3f05 // indirect
 )
@@ -110,7 +113,7 @@ require (
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/goccy/go-json v0.10.2
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/flatbuffers v23.5.26+incompatible // indirect
 	github.com/google/s2a-go v0.1.7 // indirect
@@ -151,5 +154,5 @@ require (
 	google.golang.org/genproto v0.0.0-20240227224415-6ceb2ff114de // indirect
 	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
-	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/ini.v1 v1.67.0
 )

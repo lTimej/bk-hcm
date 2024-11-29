@@ -23,11 +23,14 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"reflect"
 	"strconv"
+	"strings"
 
 	"hcm/pkg/criteria/constant"
 	"hcm/pkg/criteria/errf"
@@ -266,4 +269,68 @@ func (c *Contexts) respErrorWithEntity(data interface{}, err error) {
 	}
 
 	return
+}
+
+// DecodeHeader decode request header to a struct, if failed, then return the
+// response with an error
+func (c *Contexts) DecodeHeader(to interface{}) error {
+	val := reflect.ValueOf(to).Elem()
+	typ := val.Type()
+
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		headerName := field.Name
+		if headerName == "" {
+			continue
+		}
+
+		headerValue := c.Request.Request.Header.Get(headerName)
+		if headerValue == "" {
+			continue
+		}
+
+		fieldVal := val.Field(i)
+		if !fieldVal.CanSet() {
+			continue
+		}
+
+		switch fieldVal.Kind() {
+		case reflect.String:
+			fieldVal.SetString(headerValue)
+		default:
+			return fmt.Errorf("unsupported field type: %s", fieldVal.Kind())
+		}
+	}
+
+	return nil
+}
+
+// DecodeHeader decode request header to a struct, if failed, then return the
+// response with an error
+func (c *Contexts) DecodeQuery(to interface{}) error {
+	st := reflect.TypeOf(to).Elem()  // 获取type
+	sv := reflect.ValueOf(to).Elem() // 获取value
+	m := c.Request.Request.URL.Query()
+	// 只需要遍历全部的go struct field ，复杂度O(N), url.Values操作是0(1)
+	for i := 0; i < st.NumField(); i++ {
+		// 从type里面获取tag
+		name := strings.Split(st.Field(i).Tag.Get("json"), ",")[0]
+		v := m.Get(name)
+		if len(v) == 0 {
+			//fmt.Println("not found value in urlValues: key=", name)
+			continue
+		}
+		val := reflect.ValueOf(v)
+		// 类型匹配
+		if st.Field(i).Type == val.Type() {
+			sv.Field(i).Set(val)
+		} else if sv.Field(i).Kind() == reflect.Ptr {
+			sv.Field(i).Set(val.Elem())
+		} else {
+			return fmt.Errorf("Provided value type didn't match obj field type: %v != %v", st.Field(i).Type, val.Type())
+		}
+		// struct value 赋值
+
+	}
+	return nil
 }

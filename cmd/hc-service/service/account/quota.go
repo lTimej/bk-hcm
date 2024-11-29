@@ -20,6 +20,9 @@
 package account
 
 import (
+	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/config"
+	"hcm/pkg/adaptor/mobilecloud/emop/model"
+	"hcm/pkg/adaptor/types"
 	typeaccount "hcm/pkg/adaptor/types/account"
 	proto "hcm/pkg/api/hc-service/account"
 	"hcm/pkg/criteria/errf"
@@ -110,4 +113,36 @@ func (svc *service) GetGcpAccountRegionQuota(cts *rest.Contexts) (interface{}, e
 	}
 
 	return quota, nil
+}
+
+// MobileCloudCreateResellerUser 经销商终端客户注册订购基础口令
+func (svc *service) MobileCloudManageQuotaCheck(cts *rest.Contexts) (interface{}, error) {
+	req := new(model.QuotaCheckRequestBody)
+	if err := cts.DecodeInto(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
+	if err := req.Validate(); err != nil {
+		return nil, errf.NewFromErr(errf.InvalidParameter, err)
+	}
+	rheader := new(types.MobileCloudCredential)
+	if err := cts.DecodeHeader(rheader); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
+	if err := rheader.Validate(); err != nil {
+		return nil, errf.NewFromErr(errf.InvalidParameter, err)
+	}
+	runtimeConfig := &config.RuntimeConfig{
+		RuntimeHeaderParams: map[string]string{
+			"Pool-Id":        cts.Request.Request.Header.Get("Pool-Id"),
+			"request_id":     cts.Request.Request.Header.Get("request_id"),
+			"manage_user_id": cts.Request.Request.Header.Get("manage_user_id"),
+		},
+	}
+	client, err := svc.ad.Adaptor().MobileCloud(rheader)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := client.MobileCloudManageQuotaCheck(cts.Kit, req, runtimeConfig)
+	return resp, err
+
 }

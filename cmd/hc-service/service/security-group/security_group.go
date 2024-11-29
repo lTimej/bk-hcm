@@ -20,7 +20,7 @@
 package securitygroup
 
 import (
-	"hcm/cmd/hc-service/logics/cloud-adaptor"
+	cloudadaptor "hcm/cmd/hc-service/logics/cloud-adaptor"
 	ressync "hcm/cmd/hc-service/logics/res-sync"
 	"hcm/cmd/hc-service/service/capability"
 	dataservice "hcm/pkg/client/data-service"
@@ -98,6 +98,12 @@ func InitSecurityGroupService(cap *capability.Capability) {
 		"/vendors/tcloud/security_groups/associate/load_balancers", sg.TCloudSecurityGroupAssociateLoadBalancer)
 	h.Add("TCloudSecurityGroupDisassociateLoadBalancer", "POST",
 		"/vendors/tcloud/security_groups/disassociate/load_balancers", sg.TCloudSecurityGroupDisassociateLoadBalancer)
+
+	h.Add("CreateMobileCloudSecurityGroup", "POST", "/vendors/mobilecloud/security_groups/create", sg.CreateMobileCloudSecurityGroup)
+	h.Add("CreateMobileCloudSecurityGroupRule", "POST", "/vendors/mobilecloue/security_groups/rules/create",
+		sg.CreateMobileCloudSecurityGroupRule)
+
+	h.Add("MobileCloudListSecurityGroup", "GET", "/vendors/mobilecloud/security_groups", sg.MobileCloudListSecurityGroup)
 
 	initSecurityGroupServiceHooks(sg, h)
 

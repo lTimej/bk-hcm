@@ -23,6 +23,7 @@ import (
 	"errors"
 	"fmt"
 
+	"hcm/pkg/adaptor/mobilecloud/emop"
 	"hcm/pkg/adaptor/types"
 	dataservice "hcm/pkg/client/data-service"
 	"hcm/pkg/criteria/enumor"
@@ -291,4 +292,19 @@ func (cli *SecretClient) AzureRootCredential(kt *kit.Kit, accountID string) (*ty
 	}
 
 	return cred, nil
+}
+
+// MobileCloudSecret get mobilecloud secret and validate secret.
+func (cli *SecretClient) MobileCloudSecret(kt *kit.Kit, accountID string) (*types.MobileCloudCredential, error) {
+
+	secret, ok := emop.MobileCloudSecret.Load(accountID)
+	if !ok {
+		return nil, errors.New(accountID + "不存在secret")
+	}
+	s := secret.(*types.MobileCloudCredential)
+	if err := s.Validate(); err != nil {
+		return nil, err
+	}
+
+	return s, nil
 }

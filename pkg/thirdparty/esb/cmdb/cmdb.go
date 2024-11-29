@@ -59,7 +59,6 @@ type cmdb struct {
 
 // SearchBusiness search business
 func (c *cmdb) SearchBusiness(kt *kit.Kit, params *SearchBizParams) (*SearchBizResult, error) {
-
 	return types.EsbCall[SearchBizParams, SearchBizResult](c.client, c.config, rest.POST, kt, params,
 		"/cc/search_business/")
 }

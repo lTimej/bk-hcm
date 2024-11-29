@@ -25,6 +25,7 @@ import (
 	"hcm/pkg/adaptor/azure"
 	"hcm/pkg/adaptor/gcp"
 	"hcm/pkg/adaptor/huawei"
+	"hcm/pkg/adaptor/mobilecloud"
 	"hcm/pkg/adaptor/tcloud"
 	dataservice "hcm/pkg/client/data-service"
 	"hcm/pkg/kit"
@@ -147,4 +148,14 @@ func (cli *CloudAdaptorClient) AzureRoot(kt *kit.Kit, accountID string) (*azure.
 	}
 
 	return cli.adaptor.Azure(cred)
+}
+
+// MobileCloudRoot return huawei client.
+func (cli *CloudAdaptorClient) MobileCloud(kt *kit.Kit, accountID string) (*mobilecloud.MobileCloud, error) {
+	secret, err := cli.secretCli.MobileCloudSecret(kt, accountID)
+	if err != nil {
+		return nil, err
+	}
+
+	return cli.adaptor.MobileCloud(secret)
 }

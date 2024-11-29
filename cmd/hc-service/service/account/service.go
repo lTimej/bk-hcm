@@ -23,7 +23,7 @@ package account
 import (
 	"net/http"
 
-	"hcm/cmd/hc-service/logics/cloud-adaptor"
+	cloudadaptor "hcm/cmd/hc-service/logics/cloud-adaptor"
 	"hcm/cmd/hc-service/service/capability"
 	"hcm/pkg/rest"
 )
@@ -77,6 +77,25 @@ func InitAccountService(cap *capability.Capability) {
 	h.Add("GetTCloudNetworkAccountType", http.MethodGet, "/vendors/tcloud/accounts/{account_id}/network_type",
 		svc.GetTCloudNetworkAccountType)
 
+	// 经销商终端客户注册订购基础口令
+	h.Add("MobileCloudCreateResellerUser", http.MethodPost, "/vendors/mobilecloud/accounts/create",
+		svc.MobileCloudCreateResellerUser)
+
+	// 用户ak/sk创建
+	h.Add("MobileCloudCreateAkSk", http.MethodPost, "/vendors/mobilecloud/accounts/aksk/create",
+		svc.MobileCloudCreateAkSk)
+
+	// 用户ak/sk查询
+	h.Add("MobileCloudQueryAkSk", http.MethodPost, "/vendors/mobilecloud/accounts/aksk/query",
+		svc.MobileCloudQueryAkSk)
+
+	// 经销商终端客户操作（暂停、恢复、注销）
+	h.Add("MobileCloudResellerUserOperate", http.MethodPost, "/vendors/mobilecloud/accounts/operate",
+		svc.MobileCloudResellerUserOperate)
+
+	// 资源配额检查
+	h.Add("MobileCloudManageQuotaCheck", http.MethodPut, "/vendors/mobilecloud/manage/quota/check",
+		svc.MobileCloudManageQuotaCheck)
 	initAccountServiceHooks(svc, h)
 
 	h.Load(cap.WebService)

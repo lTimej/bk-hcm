@@ -21,7 +21,7 @@
 package vpc
 
 import (
-	"hcm/cmd/hc-service/logics/cloud-adaptor"
+	cloudadaptor "hcm/cmd/hc-service/logics/cloud-adaptor"
 	ressync "hcm/cmd/hc-service/logics/res-sync"
 	"hcm/cmd/hc-service/logics/subnet"
 	"hcm/cmd/hc-service/service/capability"
@@ -57,6 +57,10 @@ func InitVpcService(cap *capability.Capability) {
 	h.Add("HuaWeiVpcDelete", "DELETE", "/vendors/huawei/vpcs/{id}", v.HuaWeiVpcDelete)
 	h.Add("GcpVpcDelete", "DELETE", "/vendors/gcp/vpcs/{id}", v.GcpVpcDelete)
 	h.Add("AzureVpcDelete", "DELETE", "/vendors/azure/vpcs/{id}", v.AzureVpcDelete)
+	h.Add("MobileCloudVpcCreate", "POST", "/vendors/mobilecloud/vpcs/create", v.MobileCloudVpcCreate)
+	h.Add("MobileCloudVpcList", "GET", "/vendors/mobilecloud/vpcs/list", v.MobileCloudVpcList)
+	h.Add("MobileCloudListNetworkResps", "GET", "/vendors/mobilecloud/vpcs/networkResps", v.MobileCloudListNetworkResps)
+	h.Add("MobileCloudListPort", "GET", "/vendors/mobilecloud/vpcs/port", v.MobileCloudListPort)
 
 	h.Load(cap.WebService)
 }

@@ -27,6 +27,7 @@ import (
 	"hcm/pkg/adaptor/azure"
 	"hcm/pkg/adaptor/gcp"
 	"hcm/pkg/adaptor/huawei"
+	"hcm/pkg/adaptor/mobilecloud"
 	"hcm/pkg/adaptor/tcloud"
 	"hcm/pkg/adaptor/types"
 )
@@ -63,4 +64,9 @@ func (a *Adaptor) Azure(credential *types.AzureCredential) (*azure.Azure, error)
 // HuaWei returns HuaWei operations.
 func (a *Adaptor) HuaWei(s *types.BaseSecret) (*huawei.HuaWei, error) {
 	return huawei.NewHuaWei(s)
+}
+
+// MobileCloud returns MobileCloud operations.
+func (a *Adaptor) MobileCloud(s *types.MobileCloudCredential) (*mobilecloud.MobileCloud, error) {
+	return mobilecloud.NewMobileCloud(s)
 }

@@ -86,6 +86,9 @@ func InitAccountService(c *capability.Capability) {
 	h.Add("GetTCloudNetworkAccountType", http.MethodGet, "/vendors/tcloud/accounts/{account_id}/network_type",
 		svc.GetTCloudNetworkAccountType)
 
+	h.Add("MobileCloudCreateResellerUser", http.MethodPost, "/vendors/mobilecloud/accounts/create",
+		svc.MobileCloudCreateResellerUser)
+
 	h.Load(c.WebService)
 }
 

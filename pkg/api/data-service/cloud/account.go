@@ -240,7 +240,7 @@ func (u *AccountUpdateReq[T]) Validate() error {
 
 type AccountExtensionGetResp interface {
 	cloud.TCloudAccountExtension | cloud.AwsAccountExtension | cloud.HuaWeiAccountExtension |
-		cloud.GcpAccountExtension | cloud.AzureAccountExtension
+		cloud.GcpAccountExtension | cloud.AzureAccountExtension | cloud.MobileCloudAccountExtension
 }
 
 type AccountGetResult[T AccountExtensionGetResp] struct {
