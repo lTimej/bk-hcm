@@ -2,6 +2,7 @@ package config
 
 import (
 	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/auth/provider"
+	"net/http"
 
 	"gitlab.ecloud.com/ecloud/ecloudsdkcore/utils"
 )
@@ -22,6 +23,7 @@ type RuntimeConfig struct {
 	IgnoreGateway           *bool                        `json:"ignoreGateway"`
 	CentralTransportEnabled *bool                        `json:"centralTransportEnabled"`
 	RuntimeHeaderParams     map[string]string            `json:"runtimeHeaderParams"`
+	HttpRequest             *http.Request                `json:"httpRequest"`
 	Provider                provider.ICredentialProvider `json:"provider"`
 }
 
@@ -124,6 +126,11 @@ func (r *RuntimeConfigBuilder) RuntimeHeaderParams(runtimeHeaderParams map[strin
 
 func (r *RuntimeConfigBuilder) Provider(provider provider.ICredentialProvider) *RuntimeConfigBuilder {
 	r.runtimeConfig.Provider = provider
+	return r
+}
+
+func (r *RuntimeConfigBuilder) HttpRequest(httpRequest *http.Request) *RuntimeConfigBuilder {
+	r.runtimeConfig.HttpRequest = httpRequest
 	return r
 }
 

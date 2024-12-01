@@ -18,12 +18,12 @@ type QuotaCheckRequest[T QuotaCheckRequestBody] struct {
 type QuotaCheckRequestBody struct {
 	position.Body
 	// 校验是否超出配额请求体
-	QuotaCheckListReq []QuotaCheckListReq `json:"quotaCheckListReq,omitempty"`
+	QuotaCheckReqs []QuotaCheckReqs `json:"quotaCheckReqs,omitempty"`
 	// 用户ID
 	UserId *string `json:"userId,omitempty"`
 }
 
-type QuotaCheckListReq struct {
+type QuotaCheckReqs struct {
 	// 资源池编号
 	PoolId *string `json:"poolId,omitempty"`
 	// 要增加的配额数量

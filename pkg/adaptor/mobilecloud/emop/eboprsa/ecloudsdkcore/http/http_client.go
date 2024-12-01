@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"mime/multipart"
 	"net/http"
 	"net/url"
 	"strings"
@@ -15,7 +14,6 @@ import (
 
 	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/auth"
 	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/auth/provider"
-	"hcm/pkg/adaptor/mobilecloud/emop/model"
 
 	"gitlab.ecloud.com/ecloud/ecloudsdkcore/errs"
 	"gitlab.ecloud.com/ecloud/ecloudsdkcore/request"
@@ -65,30 +63,17 @@ func (hc *NetHttpClient) Execute(hr *request.HttpRequest, cm map[string]interfac
 	if err != nil {
 		return nil, err
 	}
-	if _, ok := cm["Content-Type"]; ok {
-		// 创建一个buffer，用于写入我们的multipart数据
-		var requestBody bytes.Buffer
-		// 创建一个multipart writer实例
-		multipartWriter := multipart.NewWriter(&requestBody)
-		// 添加一个文本字段
-		fieldWriter, err := multipartWriter.CreateFormField("UserID")
-		if err != nil {
-			fmt.Println("Error creating form field:", err)
-			return nil, err
-		}
-		_, err = fieldWriter.Write([]byte(*hr.Body.(model.QueryAkSkRequestBody).UserId))
-		if err != nil {
-			fmt.Println("Error writing field data:", err)
-			return nil, err
-		}
-		req.Header.Set("Content-Type", multipartWriter.FormDataContentType())
+	if _, ok := cm["HttpRequest"]; ok {
+		method := req.Method
+		url := req.URL
+		req = cm["HttpRequest"].(*http.Request)
+		req.Method = method
+		req.URL = url
 	}
-
 	client, err := hc.getClient(hr, cm)
 	if err != nil {
 		return nil, errs.NewServerRequestError("get http error: ", err)
 	}
-
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, errs.NewServerRequestError(err.Error(), err)

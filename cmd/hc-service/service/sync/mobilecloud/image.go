@@ -32,6 +32,9 @@ import (
 // Sync ...
 func (svc *service) SyncListImage(cts *rest.Contexts) (interface{}, error) {
 	req := new(imsmodel.ListServerPublicImageV2Query)
+	if err := cts.DecodeQuery(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
 	rheader := new(types.MobileCloudCredential)
 	if err := cts.DecodeHeader(rheader); err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)

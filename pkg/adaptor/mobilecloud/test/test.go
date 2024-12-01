@@ -1,7 +1,12 @@
 package main
 
 import (
+	"bytes"
+	"crypto/tls"
 	"fmt"
+	"io/ioutil"
+	"mime/multipart"
+	"net/http"
 	"reflect"
 )
 
@@ -67,6 +72,50 @@ type CreateResellerUserRequest struct {
 }
 
 func main() {
+
+	url := "https://36.133.25.49:31015/api/access/admin/subsystem/admin/create/decrypt?AccessKey=49c0ea9b0f2045d9b61cd95e459ecd60&SignatureMethod=HmacSHA1&SignatureNonce=c29b2492ecb94a978a94f2a6b6c5ac64&SignatureVersion=V2.0&Timestamp=2024-12-01T14%3A21%3A04Z&Version=2016-12-05&Signature=0a634e770d826662fc39b1a2f2e636b1122c99aa"
+	method := "POST"
+
+	payload := &bytes.Buffer{}
+	writer := multipart.NewWriter(payload)
+	_ = writer.WriteField("userId", "CIDC-U-8b63b06d89bd4a9d95250f0ffa9d80b2")
+	err := writer.Close()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{
+		Transport: tr,
+	}
+	req, err := http.NewRequest(method, url, payload)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	fmt.Println(req.Header)
+	fmt.Println("=======")
+	fmt.Println(req.Body)
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(body))
+}
+
+func main1() {
 	dc := "dfs"
 	request := &CreateResellerUserRequest{
 		DistributionChannel: &dc,

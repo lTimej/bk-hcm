@@ -24,18 +24,18 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"hcm/pkg/criteria/constant"
+	"hcm/pkg/criteria/errf"
+	"hcm/pkg/kit"
+	"hcm/pkg/logs"
 	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"reflect"
 	"strconv"
 	"strings"
-
-	"hcm/pkg/criteria/constant"
-	"hcm/pkg/criteria/errf"
-	"hcm/pkg/kit"
-	"hcm/pkg/logs"
 
 	"github.com/emicklei/go-restful/v3"
 )
@@ -308,29 +308,96 @@ func (c *Contexts) DecodeHeader(to interface{}) error {
 // DecodeHeader decode request header to a struct, if failed, then return the
 // response with an error
 func (c *Contexts) DecodeQuery(to interface{}) error {
-	st := reflect.TypeOf(to).Elem()  // 获取type
-	sv := reflect.ValueOf(to).Elem() // 获取value
-	m := c.Request.Request.URL.Query()
-	// 只需要遍历全部的go struct field ，复杂度O(N), url.Values操作是0(1)
-	for i := 0; i < st.NumField(); i++ {
-		// 从type里面获取tag
-		name := strings.Split(st.Field(i).Tag.Get("json"), ",")[0]
-		v := m.Get(name)
-		if len(v) == 0 {
-			//fmt.Println("not found value in urlValues: key=", name)
+	val := reflect.ValueOf(to).Elem()
+	typ := val.Type()
+
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		headerName := strings.Split(field.Tag.Get("json"), ",")[0]
+		if headerName == "" {
 			continue
 		}
-		val := reflect.ValueOf(v)
-		// 类型匹配
-		if st.Field(i).Type == val.Type() {
-			sv.Field(i).Set(val)
-		} else if sv.Field(i).Kind() == reflect.Ptr {
-			sv.Field(i).Set(val.Elem())
-		} else {
-			return fmt.Errorf("Provided value type didn't match obj field type: %v != %v", st.Field(i).Type, val.Type())
+
+		headerValue := c.Request.Request.URL.Query().Get(headerName)
+		if headerValue == "" {
+			continue
 		}
-		// struct value 赋值
+
+		fieldVal := val.Field(i)
+		if !fieldVal.CanSet() {
+			continue
+		}
+
+		switch fieldVal.Type().Kind() {
+		case reflect.String:
+			fieldVal.SetString(headerValue)
+		case reflect.Int:
+			newv, _ := strconv.ParseInt(headerValue, 10, 64)
+			fieldVal.SetInt(newv)
+		case reflect.Int32:
+			newv, _ := strconv.ParseInt(headerValue, 10, 64)
+			fieldVal.SetInt(newv)
+		case reflect.Int64:
+			newv, _ := strconv.ParseInt(headerValue, 10, 64)
+			fieldVal.SetInt(newv)
+		case reflect.Ptr:
+			if fieldVal.Type().Elem().Kind() == reflect.String {
+				newIntValue := reflect.ValueOf(&headerValue)
+				fieldVal.Set(newIntValue)
+			} else if fieldVal.Type().Elem().Kind() == reflect.Int {
+				intv, _ := strconv.Atoi(headerValue)
+				newIntValue := reflect.ValueOf(&intv)
+				fieldVal.Set(newIntValue)
+			} else if fieldVal.Type().Elem().Kind() == reflect.Int32 {
+				int32Value, _ := strconv.ParseInt(headerValue, 10, 32)
+				int32v := int32(int32Value)
+				newIntValue := reflect.ValueOf(&int32v)
+				fieldVal.Set(newIntValue)
+			} else if fieldVal.Type().Elem().Kind() == reflect.Int64 {
+				int64v, _ := strconv.ParseInt(headerValue, 10, 32)
+				newIntValue := reflect.ValueOf(&int64v)
+				fieldVal.Set(newIntValue)
+			} else {
+				fmt.Println(fieldVal.Type().Elem().Kind())
+			}
+		default:
+			return fmt.Errorf("unsupported field type: %s", fieldVal.Kind())
+		}
+	}
+
+	return nil
+}
+
+// DecodeHeader decode request header to a struct, if failed, then return the
+// response with an error
+func (c *Contexts) DecodeFormData(to interface{}) (*http.Request, error) {
+	payload := &bytes.Buffer{}
+	writer := multipart.NewWriter(payload)
+	val := reflect.ValueOf(to).Elem()
+	typ := val.Type()
+	for i := 0; i < typ.NumField(); i++ {
+		field := typ.Field(i)
+		name := strings.Split(field.Tag.Get("json"), ",")[0]
+		if name == "" {
+			continue
+		}
+		value := c.Request.Request.FormValue(name)
+		if value == "" {
+			continue
+		}
+		_ = writer.WriteField(name, value)
 
 	}
-	return nil
+	err := writer.Close()
+	if err != nil {
+		fmt.Println("Error creating form field:", err)
+		return nil, err
+	}
+	req, err := http.NewRequest(c.Request.Request.Method, c.Request.Request.URL.String(), payload)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	return req, nil
 }

@@ -20,6 +20,7 @@
 package account
 
 import (
+	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/config"
 	"hcm/pkg/adaptor/mobilecloud/emop/model"
 	"hcm/pkg/adaptor/types"
 	"hcm/pkg/adaptor/types/account"
@@ -66,12 +67,13 @@ func (svc *service) MobileCloudCreateResellerUser(cts *rest.Contexts) (interface
 
 // QueryAkSk 用户ak/sk创建
 func (svc *service) MobileCloudCreateAkSk(cts *rest.Contexts) (interface{}, error) {
-	req := new(model.QueryAkSkRequestBody)
-	if err := cts.DecodeInto(req); err != nil {
+	req := new(model.CreateAkSkRequestBody)
+	hreq, err := cts.DecodeFormData(req)
+	if err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
 	}
-	if err := req.Validate(); err != nil {
-		return nil, errf.NewFromErr(errf.InvalidParameter, err)
+	runtimeConfig := &config.RuntimeConfig{
+		HttpRequest: hreq,
 	}
 	rheader := new(types.MobileCloudCredential)
 	if err := cts.DecodeHeader(rheader); err != nil {
@@ -84,7 +86,7 @@ func (svc *service) MobileCloudCreateAkSk(cts *rest.Contexts) (interface{}, erro
 	if err != nil {
 		return nil, err
 	}
-	resp, err := client.CreateAkSk(cts.Kit, req)
+	resp, err := client.CreateAkSk(cts.Kit, req, runtimeConfig)
 	return resp, err
 
 }

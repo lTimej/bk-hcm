@@ -21,6 +21,7 @@ package mobilecloud
 
 import (
 	"fmt"
+	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/config"
 	"hcm/pkg/adaptor/mobilecloud/emop/model"
 	"hcm/pkg/adaptor/types/account"
 	"hcm/pkg/kit"
@@ -71,17 +72,17 @@ func (mc *MobileCloud) CreateResellerUser(kt *kit.Kit, opt *account.MobileCloudC
 }
 
 // 用户ak/sk创建
-func (mc *MobileCloud) CreateAkSk(kt *kit.Kit, opt *model.QueryAkSkRequestBody) (*model.QueryAkSkResponse[model.QueryAkSkResponseBody], error) {
+func (mc *MobileCloud) CreateAkSk(kt *kit.Kit, opt *model.CreateAkSkRequestBody, runtimeConfig *config.RuntimeConfig) (*model.CreateAkSkResponse[model.CreateAkSkResponseBody], error) {
 	client, err := mc.clientSet.emopClient()
 	if err != nil {
 		logs.Errorf("new iam client failed, err: %v, rid: %s", err, kt.Rid)
 		return nil, err
 	}
-	resp, err := client.CreateAkSk(&model.QueryAkSkRequest[model.QueryAkSkRequestBody]{
-		QueryAkSkRequestBody: &model.QueryAkSkRequestBody{
+	resp, err := client.CreateAkSk(&model.CreateAkSkRequest[model.CreateAkSkRequestBody]{
+		CreateAkSkRequestBody: &model.CreateAkSkRequestBody{
 			UserId: opt.UserId,
 		},
-	})
+	}, runtimeConfig)
 	if err != nil {
 		logs.Errorf("ShowPermanentAccessKey failed, err: %v, rid: %s", err, kt.Rid)
 		return nil, fmt.Errorf("ShowPermanentAccessKey failed, err: %v", err)

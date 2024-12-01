@@ -100,11 +100,11 @@ func (c *Client) CreateResellerUserWithConfig(request *model.CreateResellerUserR
 }
 
 // 用户ak/sk创建
-func (c *Client) CreateAkSk(request *model.QueryAkSkRequest[model.QueryAkSkRequestBody]) (*model.QueryAkSkResponse[model.QueryAkSkResponseBody], error) {
-	return c.CreateAkSkWithConfig(request, nil)
+func (c *Client) CreateAkSk(request *model.CreateAkSkRequest[model.CreateAkSkRequestBody], runtimeConfig *config.RuntimeConfig) (*model.CreateAkSkResponse[model.CreateAkSkResponseBody], error) {
+	return c.CreateAkSkWithConfig(request, runtimeConfig)
 }
 
-func (c *Client) CreateAkSkWithConfig(request *model.QueryAkSkRequest[model.QueryAkSkRequestBody], runtimeConfig *config.RuntimeConfig) (*model.QueryAkSkResponse[model.QueryAkSkResponseBody], error) {
+func (c *Client) CreateAkSkWithConfig(request *model.CreateAkSkRequest[model.CreateAkSkRequestBody], runtimeConfig *config.RuntimeConfig) (*model.CreateAkSkResponse[model.CreateAkSkResponseBody], error) {
 
 	params := param.NewParamsBuilder().
 		Uri("/api/access/admin/subsystem/admin/create/decrypt").
@@ -113,7 +113,7 @@ func (c *Client) CreateAkSkWithConfig(request *model.QueryAkSkRequest[model.Quer
 		Method("POST").
 		Request(request).
 		Build()
-	returnValue := &model.QueryAkSkResponse[model.QueryAkSkResponseBody]{}
+	returnValue := &model.CreateAkSkResponse[model.CreateAkSkResponseBody]{}
 	if _, err := c.apiClient.Excute(params, runtimeConfig, returnValue); err != nil {
 		return nil, err
 	} else {

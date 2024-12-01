@@ -20,7 +20,6 @@
 package securitygroup
 
 import (
-	"encoding/json"
 	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/config"
 	"hcm/pkg/adaptor/types"
 	"hcm/pkg/criteria/errf"
@@ -58,13 +57,10 @@ func (g *securityGroup) CreateMobileCloudSecurityGroup(cts *rest.Contexts) (inte
 
 // CreateMobileCloudSecurityGroup create mobile cloud security group.
 func (g *securityGroup) MobileCloudListSecurityGroup(cts *rest.Contexts) (interface{}, error) {
-	req := new(vpcmodel.ListNetworkRespQuery)
-	// if err := cts.DecodeQuery(req); err != nil {
-	// 	return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
-	// }
-	query := cts.Request.Request.URL.Query()
-	data, _ := json.Marshal(query)
-	json.Unmarshal(data, req)
+	req := new(vpcmodel.CreateSecurityGroupBody)
+	if err := cts.DecodeQuery(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
 	rheader := new(types.MobileCloudCredential)
 	if err := cts.DecodeHeader(rheader); err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
@@ -81,6 +77,6 @@ func (g *securityGroup) MobileCloudListSecurityGroup(cts *rest.Contexts) (interf
 	if err != nil {
 		return nil, err
 	}
-	resp, err := client.ListNetworkResps(cts.Kit, req, runtimeConfig)
+	resp, err := client.ListSecurityGroup(cts.Kit, req, runtimeConfig)
 	return resp, err
 }

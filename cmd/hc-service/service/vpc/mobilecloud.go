@@ -21,7 +21,6 @@
 package vpc
 
 import (
-	"encoding/json"
 	"hcm/pkg/adaptor/mobilecloud/emop/eboprsa/ecloudsdkcore/config"
 	"hcm/pkg/adaptor/types"
 	"hcm/pkg/criteria/errf"
@@ -61,12 +60,9 @@ func (v vpc) MobileCloudVpcCreate(cts *rest.Contexts) (interface{}, error) {
 // MobileCloudVpcCreate create mobile cloud vpc.
 func (v vpc) MobileCloudVpcList(cts *rest.Contexts) (interface{}, error) {
 	req := new(model.ListVpcQuery)
-	// if err := cts.DecodeQuery(req); err != nil {
-	// 	return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
-	// }
-	query := cts.Request.Request.URL.Query()
-	data, _ := json.Marshal(query)
-	json.Unmarshal(data, req)
+	if err := cts.DecodeQuery(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
 	rheader := new(types.MobileCloudCredential)
 	if err := cts.DecodeHeader(rheader); err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
@@ -91,12 +87,9 @@ func (v vpc) MobileCloudVpcList(cts *rest.Contexts) (interface{}, error) {
 // MobileCloudListNetworkResps get mobile cloud vpc NetworkResps.
 func (v vpc) MobileCloudListNetworkResps(cts *rest.Contexts) (interface{}, error) {
 	req := new(model.ListNetworkRespQuery)
-	// if err := cts.DecodeQuery(req); err != nil {
-	// 	return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
-	// }
-	query := cts.Request.Request.URL.Query()
-	data, _ := json.Marshal(query)
-	json.Unmarshal(data, req)
+	if err := cts.DecodeQuery(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
 	rheader := new(types.MobileCloudCredential)
 	if err := cts.DecodeHeader(rheader); err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
@@ -121,12 +114,9 @@ func (v vpc) MobileCloudListNetworkResps(cts *rest.Contexts) (interface{}, error
 // MobileCloudListPort get mobile cloud vpc port.
 func (v vpc) MobileCloudListPort(cts *rest.Contexts) (interface{}, error) {
 	req := new(model.ListPortQuery)
-	// if err := cts.DecodeQuery(req); err != nil {
-	// 	return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
-	// }
-	query := cts.Request.Request.URL.Query()
-	data, _ := json.Marshal(query)
-	json.Unmarshal(data, req)
+	if err := cts.DecodeQuery(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
 	rheader := new(types.MobileCloudCredential)
 	if err := cts.DecodeHeader(rheader); err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
