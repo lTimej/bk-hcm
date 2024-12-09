@@ -124,9 +124,6 @@ func (c *cmdbSvc) listBiz(kt *kit.Kit, filter *cmdb.QueryFilter) (interface{}, e
 	params := &cmdb.SearchBizParams{
 		BizPropertyFilter: filter,
 		Fields:            []string{"bk_biz_id", "bk_biz_name"},
-		BkToken:           "bkcrypt$gAAAAABnQ_d0KA-1oR6BZXmWKAyQ3dZpYLrY2ffCLubovn5jwhjwRcmYu8Qd2RayF6N1QSY9mq9g3B_KOY5Ee9RwU3NLFp_VCInS3pCz3BgQCrffU-qaiB8=",
-		BkAppCode:         "bk-hcm",
-		BkAppSecret:       "jhIyBXUofrohgW6TNNBdaP1vsCE8MV4DldKr",
 	}
 	resp, err := c.esbClient.Cmdb().SearchBusiness(kt, params)
 	if err != nil {
@@ -164,10 +161,7 @@ func (c *cmdbSvc) ListCloudArea(cts *rest.Contexts) (interface{}, error) {
 			Start: int64(req.Page.Start),
 			Sort:  "bk_cloud_id",
 		},
-		Condition:   map[string]interface{}{"bk_cloud_id": map[string]interface{}{"$ne": 0}},
-		BkToken:     "bkcrypt$gAAAAABnQ_d0KA-1oR6BZXmWKAyQ3dZpYLrY2ffCLubovn5jwhjwRcmYu8Qd2RayF6N1QSY9mq9g3B_KOY5Ee9RwU3NLFp_VCInS3pCz3BgQCrffU-qaiB8=",
-		BkAppCode:   "bk-hcm",
-		BkAppSecret: "jhIyBXUofrohgW6TNNBdaP1vsCE8MV4DldKr",
+		Condition: map[string]interface{}{"bk_cloud_id": map[string]interface{}{"$ne": 0}},
 	}
 
 	if req.Name != "" {

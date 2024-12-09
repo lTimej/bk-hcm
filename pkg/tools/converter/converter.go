@@ -28,7 +28,7 @@ import (
 
 // ValToPtr convert one value to pointer.
 func ValToPtr[T any](val T) *T {
-	return nil
+	return &val
 }
 
 // PtrToVal convert pointer to one value.

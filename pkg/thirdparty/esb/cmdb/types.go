@@ -39,9 +39,6 @@ type SearchBizParams struct {
 	Fields            []string     `json:"fields"`
 	Page              BasePage     `json:"page"`
 	BizPropertyFilter *QueryFilter `json:"biz_property_filter,omitempty"`
-	BkToken           string       `json:"bk_token"`
-	BkAppCode         string       `json:"bk_app_code"`
-	BkAppSecret       string       `json:"bk_app_secret"`
 }
 
 // BizIDField cmdb 业务字段
@@ -149,12 +146,9 @@ type esbSearchCloudAreaParams struct {
 
 // SearchCloudAreaParams is cmdb search cloud area parameter.
 type SearchCloudAreaParams struct {
-	Fields      []string               `json:"fields"`
-	Page        BasePage               `json:"page"`
-	Condition   map[string]interface{} `json:"condition,omitempty"`
-	BkToken     string                 `json:"bk_token"`
-	BkAppCode   string                 `json:"bk_app_code"`
-	BkAppSecret string                 `json:"bk_app_secret"`
+	Fields    []string               `json:"fields"`
+	Page      BasePage               `json:"page"`
+	Condition map[string]interface{} `json:"condition,omitempty"`
 }
 
 // SearchCloudAreaResp is cmdb search cloud area response.
