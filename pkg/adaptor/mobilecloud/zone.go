@@ -81,3 +81,21 @@ func (mc *MobileCloud) ResellerOrderOperateVerify(kt *kit.Kit, opt *model.Resell
 	}
 	return resp, nil
 }
+
+// 经销商业务操作校验接口
+func (mc *MobileCloud) CreateOrderUnify(kt *kit.Kit, opt *model.CreateOrderUnifyRequestBody) (*model.CreateOrderUnifyResponse[model.CreateOrderUnifyResponseBody], error) {
+	client, err := mc.clientSet.emopClient()
+	if err != nil {
+		logs.Errorf("new iam client failed, err: %v, rid: %s", err, kt.Rid)
+		return nil, err
+	}
+	resp, err := client.CreateOrderUnify(&model.CreateOrderUnifyRequest[model.CreateOrderUnifyRequestBody]{
+		CreateOrderUnifyRequestBody: opt,
+	})
+
+	if err != nil {
+		logs.Errorf("ShowPermanentAccessKey failed, err: %v, rid: %s", err, kt.Rid)
+		return nil, fmt.Errorf("ShowPermanentAccessKey failed, err: %v", err)
+	}
+	return resp, nil
+}

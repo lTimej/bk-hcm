@@ -51,3 +51,12 @@ func (cli *client) ResellerOrderOperateVerify(kt *kit.Kit, opt *model.ResellerOr
 	resp, err := cli.cloudCli.ResellerOrderOperateVerify(kt, opt)
 	return resp, err
 }
+
+// ResellerOrderOperateVerify ...
+func (cli *client) CreateOrderUnify(kt *kit.Kit, opt *model.CreateOrderUnifyRequestBody) (*model.CreateOrderUnifyResponse[model.CreateOrderUnifyResponseBody], error) {
+	if err := opt.Validate(); err != nil {
+		return nil, errf.NewFromErr(errf.InvalidParameter, err)
+	}
+	resp, err := cli.cloudCli.CreateOrderUnify(kt, opt)
+	return resp, err
+}

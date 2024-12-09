@@ -43,7 +43,8 @@ type Products struct {
 	// 产品订购数量
 	Quantity *int `json:"quantity,omitempty"`
 	// 可用区域编码
-	ZoneId *string `json:"zoneId,omitempty"`
+	ZoneId    *string `json:"zoneId,omitempty"`
+	AutoRenew *string `json:"autoRenew,omitempty"`
 	// 资源实例编码
 	InstanceId *string `json:"useinstanceIdrId,omitempty" `
 	// 变更后新资源实例
@@ -59,7 +60,7 @@ type Products struct {
 }
 
 type PriceList struct {
-	// 资费编码
+	// 价格id
 	PriceId *string `json:"priceId,omitempty"`
 }
 

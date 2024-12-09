@@ -44,6 +44,7 @@ func InitService(cap *capability.Capability) {
 	h.Add("SyncDefaultPoolInfo", "POST", "/default/poolinfo/sync", v.SyncPoolInfo)
 	h.Add("SyncQryOffer", "POST", "/qry/offer/sync", v.QryOffer)
 	h.Add("SyncResellerOrderOperateVerify", "POST", "/reseller/order/operate/verify", v.ResellerOrderOperateVerify)
+	h.Add("CreateOrderUnify", "POST", "/reseller/order/create", v.CreateOrderUnify)
 	h.Add("SyncListMage", "GET", "/list/image", v.SyncListImage)
 
 	h.Load(cap.WebService)

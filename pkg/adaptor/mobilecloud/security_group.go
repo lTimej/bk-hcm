@@ -52,16 +52,16 @@ func (mc *MobileCloud) CreateSecurityGroup(kt *kit.Kit, opt *vpcmodel.CreateSecu
 
 // ListSecurityGroupRule create security group.
 // reference: https://support.huaweicloud.com/api-vpc/vpc_apiv3_0010.html
-func (mc *MobileCloud) ListSecurityGroup(kt *kit.Kit, opt *vpcmodel.CreateSecurityGroupBody, runtimeConfig *config.RuntimeConfig) (
-	*vpcmodel.CreateSecurityGroupResponse, error) {
+func (mc *MobileCloud) ListSecurityGroup(kt *kit.Kit, opt *vpcmodel.ListSecGroupQuery, runtimeConfig *config.RuntimeConfig) (
+	*vpcmodel.ListSecGroupResponse, error) {
 
 	client, err := mc.clientSet.emopClient()
 	if err != nil {
 		logs.Errorf("new iam client failed, err: %v, rid: %s", err, kt.Rid)
 		return nil, err
 	}
-	resp, err := client.ListSecurityGroup(&vpcmodel.CreateSecurityGroupRequest{
-		CreateSecurityGroupBody: opt,
+	resp, err := client.ListSecurityGroup(&vpcmodel.ListSecGroupRequest{
+		ListSecGroupQuery: opt,
 	}, runtimeConfig)
 	if err != nil {
 		logs.Errorf("ShowPermanentAccessKey failed, err: %v, rid: %s", err, kt.Rid)

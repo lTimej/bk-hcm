@@ -417,19 +417,19 @@ func (c *Client) CreateSecurityGroupRuleWithConfig(request *vpcmodel.CreateSecur
 }
 
 // 查看安全组
-func (c *Client) ListSecurityGroup(request *vpcmodel.CreateSecurityGroupRequest, runtimeConfig *config.RuntimeConfig) (*vpcmodel.CreateSecurityGroupResponse, error) {
+func (c *Client) ListSecurityGroup(request *vpcmodel.ListSecGroupRequest, runtimeConfig *config.RuntimeConfig) (*vpcmodel.ListSecGroupResponse, error) {
 	return c.ListSecurityGroupWithConfig(request, runtimeConfig)
 }
 
-func (c *Client) ListSecurityGroupWithConfig(request *vpcmodel.CreateSecurityGroupRequest, runtimeConfig *config.RuntimeConfig) (*vpcmodel.CreateSecurityGroupResponse, error) {
+func (c *Client) ListSecurityGroupWithConfig(request *vpcmodel.ListSecGroupRequest, runtimeConfig *config.RuntimeConfig) (*vpcmodel.ListSecGroupResponse, error) {
 	params := param.NewParamsBuilder().
-		Uri("/api/openapi-vpc/customer/v3/SecurityGroupRule").
+		Uri("/api/openapi-vpc/customer/v3/SecurityGroup").
 		Protocol("https").
 		ContentType("application/json").
 		Method("GET").
 		Request(request).
 		Build()
-	returnValue := &vpcmodel.CreateSecurityGroupResponse{}
+	returnValue := &vpcmodel.ListSecGroupResponse{}
 	if _, err := c.apiClient.Excute(params, runtimeConfig, returnValue); err != nil {
 		return nil, err
 	} else {

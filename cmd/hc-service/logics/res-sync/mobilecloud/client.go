@@ -45,6 +45,7 @@ type Interface interface {
 	PoolInfo(kt *kit.Kit, opt *model.PoolInfoRequestBody) (*model.PoolInfoResponse[model.PoolInfoResponseBody], error)
 	QryOffer(kt *kit.Kit, opt *model.QryOfferRequestBody) (*model.QryOfferResponse[model.QryOfferResponseBody], error)
 	ResellerOrderOperateVerify(kt *kit.Kit, opt *model.ResellerOrderOperateVerifyRequestBody) (*model.ResellerOrderOperateVerifyResponse[model.ResellerOrderOperateVerifyResponseBody], error)
+	CreateOrderUnify(kt *kit.Kit, opt *model.CreateOrderUnifyRequestBody) (*model.CreateOrderUnifyResponse[model.CreateOrderUnifyResponseBody], error)
 }
 
 var _ Interface = new(client)

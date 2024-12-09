@@ -57,7 +57,7 @@ func (g *securityGroup) CreateMobileCloudSecurityGroup(cts *rest.Contexts) (inte
 
 // CreateMobileCloudSecurityGroup create mobile cloud security group.
 func (g *securityGroup) MobileCloudListSecurityGroup(cts *rest.Contexts) (interface{}, error) {
-	req := new(vpcmodel.CreateSecurityGroupBody)
+	req := new(vpcmodel.ListSecGroupQuery)
 	if err := cts.DecodeQuery(req); err != nil {
 		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
 	}

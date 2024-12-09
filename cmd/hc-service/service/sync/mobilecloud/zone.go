@@ -101,3 +101,28 @@ func (svc *service) ResellerOrderOperateVerify(cts *rest.Contexts) (interface{},
 	}
 	return syncCli.ResellerOrderOperateVerify(cts.Kit, req)
 }
+
+// ResellerOrderOperateVerify ....
+func (svc *service) CreateOrderUnify(cts *rest.Contexts) (interface{}, error) {
+	req := new(model.CreateOrderUnifyRequestBody)
+	if err := cts.DecodeInto(req); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
+
+	if err := req.Validate(); err != nil {
+		return nil, errf.NewFromErr(errf.InvalidParameter, err)
+	}
+	rheader := new(types.MobileCloudCredential)
+	if err := cts.DecodeHeader(rheader); err != nil {
+		return nil, errf.NewFromErr(errf.DecodeRequestFailed, err)
+	}
+	if err := rheader.Validate(); err != nil {
+		return nil, errf.NewFromErr(errf.InvalidParameter, err)
+	}
+	emop.MobileCloudSecret.Store(rheader.AppID, rheader)
+	syncCli, err := svc.syncCli.MobileCloud(cts.Kit, rheader.AppID)
+	if err != nil {
+		return nil, err
+	}
+	return syncCli.CreateOrderUnify(cts.Kit, req)
+}
